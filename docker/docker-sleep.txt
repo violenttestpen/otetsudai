@@ -1,5 +1,5 @@
 # https://gist.github.com/stefhen/7cc3b841cc19d25baa5f5c95592b359b
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 
-# https://stackoverflow.com/questions/40608507/make-docker-container-run-forever-while-being-able-to-gracefully-stop
-CMD ENTRYPOINT while :; do read; done
+# https://stackoverflow.com/questions/28212380/why-docker-container-exits-immediately
+CMD while true; do sleep 1000; done
