@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     pip install --no-cache-dir prettytable Mako PyYAML python-dateutil PySocks && \
     wget --no-check-certificate https://github.com/epinna/weevely3/archive/master.tar.gz && \
     apk del --purge g++ py-pip yaml-dev python-dev wget && \
-    tar xzvf master.tar.gz && \
+    tar xzf master.tar.gz && \
     rm master.tar.gz
 
 RUN mv */ weevely3 && \
