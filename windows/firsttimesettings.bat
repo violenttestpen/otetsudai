@@ -1,0 +1,1 @@
+choco install -y 7zip ccleaner deluge docker-toolbox dropbox git GoogleChrome keepass libreoffice notepadplusplus telegram vagrant virtualbox VisualStudioCode Xming
