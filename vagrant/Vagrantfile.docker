@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "C:/", "/c"
   config.vm.synced_folder "D:/", "/d"
 
+  config.vm.define "default"
   config.vm.provider "virtualbox" do |vb|
     vb.name = "default"
     vb.cpus = 2

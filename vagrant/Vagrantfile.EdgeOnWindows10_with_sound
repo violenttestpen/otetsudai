@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "Microsoft/EdgeOnWindows10"
+  config.vm.box_check_update = false
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--vram", "128"]
+    vb.customize ["modifyvm", :id, "--audioout", "on"]
+    vb.customize ["modifyvm", :id, "--audioin", "off"]
+    vb.customize ["modifyvm", :id, "--audio", "dsound"]
+    vb.customize ["modifyvm", :id, "--audiocontroller", "hda"]
+    vb.cpus = 2
+    vb.gui = true
+    vb.memory = "2048"
+  end
+end
