@@ -1,0 +1,11 @@
+# if you dont have a keystore already, here's how to create one
+keytool -genkey -v -keystore custom.keystore -alias mykeyaliasname -keyalg RSA -keysize 2048 -validity 10000
+
+# sign the APK
+jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore mycustom.keystore -storepass mystorepass repackaged.apk mykeyaliasname
+
+# verify the signature you just created
+jarsigner -verify repackaged.apk
+
+# zipalign the APK
+zipalign 4 repackaged.apk repackaged-final.apk
