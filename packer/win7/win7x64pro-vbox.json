@@ -1,0 +1,68 @@
+{
+    "variables": {
+      "skip_export": "false",
+      "headless": "true",
+      "iso_checksum": "50127304441a793ee51b3f501289f6599a559e9f",
+      "iso_url": "iso/en_windows_7_professional_x64_dvd_X15-65805.iso",
+      "vm_name": "win7x64pro"
+    },
+    "builders": [
+      {
+        "type": "virtualbox-iso",
+        "vboxmanage": [
+          ["modifyvm", "{{.Name}}", "--memory", "2048"],
+          ["modifyvm", "{{.Name}}", "--vram", "128"],
+          ["modifyvm", "{{.Name}}", "--cpus", "2"]
+        ],
+        "iso_url": "{{ user `iso_url` }}",
+        "iso_checksum": "{{ user `iso_checksum` }}",
+        "guest_os_type": "Windows7_64",
+        "vm_name": "{{ user `vm_name` }}",
+        "guest_additions_mode": "disable",
+        "communicator": "winrm",
+        "headless": "{{ user `headless` }}",
+        "skip_export": "{{ user `skip_export` }}",
+        "winrm_username": "vagrant",
+        "winrm_password": "vagrant",
+        "winrm_timeout": "15m",
+        "virtualbox_version_file": "",
+        "output_directory": "win7x64pro-vbox",
+        "keep_registered": "false",
+        "shutdown_command": "shutdown /s /t 0",
+        "shutdown_timeout": "15m",
+        "floppy_files": [
+          "floppy/Autounattend.xml",
+          "floppy/diskcleanup.bat"
+        ]
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "windows-restart"
+      },
+      {
+        "type": "windows-shell",
+        "inline": [
+          "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v EnableLUA /t REG_DWORD /d 0 /f",
+          "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f",
+          "netsh advfirewall set allprofiles state off"
+          ]
+      },
+      {
+        "type": "windows-shell",
+        "inline": [
+          "dism /online /cleanup-image /spsuperseded",
+          "A:\\diskcleanup.bat",
+          "shutdown /s"
+        ]
+      }
+    ],
+    "post-processors": [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": false,
+        "output": "windows_7_{{.Provider}}.box",
+        "vagrantfile_template": "vagrantfile-windows_7.template"
+      }
+    ]
+  }
