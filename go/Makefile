@@ -2,7 +2,7 @@ GO = go
 GOBUILD = $(GO) build
 GOTEST = $(GO) test
 GOBENCHMARK = $(GOTEST) -bench=. -benchmem
-GOCOVER = $(GO) tool cover
+GOTOOL = $(GO) tool
 
 DIST_DIRNAME = ./dist
 COVERAGE_FILENAME = ./coverage.html
@@ -16,14 +16,17 @@ build:
 	sudo $(GOBUILD) .
 
 run:
-	sudo $(GO) run
+	sudo $(GO) run .
 
 test:
 	sudo $(GOTEST) -v
 
+pprof:
+	sudo $(GOTOOL) pprof exe profile.pprof
+
 coverage:
 	sudo $(GOTEST) -coverprofile=coverage.out
-	sudo $(GOCOVER) -html=coverage.out -o $(COVERAGE_FILENAME)
+	sudo $(GOTOOL) cover -html=coverage.out -o $(COVERAGE_FILENAME)
 	sudo rm -f ./coverage.out
 
 clean:
