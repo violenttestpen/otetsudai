@@ -23,6 +23,11 @@ apt-get install -y \
 # Install common runtime languages
 apt-get install -y python3 python3-pip
 
+# Install shellerator and One-Lin3r for easy reverse shell generations
+pip3 install --no-cache-dir \
+    git+https://github.com/ShutdownRepo/shellerator.git \
+    git+https://github.com/D4Vinci/One-Lin3r.git
+
 # Install jwt_tool
 if [ ! -d /home/vagrant/jwt_tool ]; then
     git clone https://github.com/ticarpi/jwt_tool.git /home/vagrant/jwt_tool
