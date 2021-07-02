@@ -41,6 +41,9 @@ if [ ! `which r2` ]; then
         && rm -rf .git
 fi
 
+# Install radare2 packages
+r2pm -gi r2dec
+
 # Install one_gadget
 gem install --no-document one_gadget
 
