@@ -6,8 +6,11 @@ mkdir -p /home/vagrant/windows
 # Install dependencies
 apt-get install -y python3 python3-pip
 
+# Install pipx
+pip3 install --user --no-cache-dir pipx
+
 # Install crackmapexec
-pip3 install --no-cache-dir crackmapexec
+pipx install --pip-args="--no-cache-dir" crackmapexec
 
 # Install nishang
 git clone https://github.com/samratashok/nishang.git

@@ -7,11 +7,11 @@ apt-get install -y gcc-multilib
 # Install dependencies
 apt-get install -y git python3 python3-pip ruby
 
+# Install pipx
+pip3 install --user --no-cache-dir pipx
+
 # Install pwntools
 pip3 install --no-cache-dir pwntools
-
-# Install frida
-pip3 install --no-cache-dir frida frida-tools
 
 # Add checksec.sh
 apt-get install -y dos2unix \
@@ -47,7 +47,8 @@ r2pm -gi r2dec
 # Install one_gadget
 gem install --no-document one_gadget
 
+# Install frida
+pipx install --pip-args="--no-cache-dir" frida-tools
+
 # Install gostringsr2
-if [ ! `which gostringsr2` ]; then
-    pip3 install --no-cache-dir git+https://github.com/carvesystems/gostringsr2.git
-fi
+pipx install --pip-args="--no-cache-dir" git+https://github.com/carvesystems/gostringsr2.git
