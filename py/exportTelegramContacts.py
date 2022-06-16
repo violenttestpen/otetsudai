@@ -7,6 +7,8 @@ TEL;CELL:<PHONE_NO>
 END:VCARD
 '''
 
+from pathlib import Path
+
 from telegram.client import Telegram
 
 tg = Telegram(
@@ -36,24 +38,22 @@ def _getUser(tg, user_id):
 
 
 def saveAsVCard(users, filename='contacts.vcf'):
-    result = 0
-    with open(filename, 'w') as f:
-        for user in users:
-            vcard = _convertTelegramContactToVCard(user)
-            f.write(vcard)
-            f.write('\n')
-            result += 1
-    return result
+    vcards = [_convertTelegramContactToVCard(user) for user in users]
+    Path(filename).write_text('\n'.join(vcards) + '\n')
+    return len(vcards)
 
 
 def _convertTelegramContactToVCard(user):
+    first_name = user['first_name']
+    last_name = user['last_name']
+    phone_no = user['phone_number']
+    phone_no = phone_no[2:] if phone_no.startswith('65') else phone_no
+
     result = ["BEGIN:VCARD",
               "VERSION:2.1",
-              f"N:{user['last_name']};{user['first_name']}",
-              f"FN:{user['first_name'] + ' ' + user['last_name']}",
-              f"TEL;CELL:{user['phone_number'][2:] \
-                          if user['phone_number'].startswith('65') \
-                          else user['phone_number']}",
+              f"N:{last_name};{first_name}",
+              f"FN:{first_name} {last_name}",
+              f"TEL;CELL:{phone_no}",
               "END:VCARD"]
     return '\n'.join(result)
 
