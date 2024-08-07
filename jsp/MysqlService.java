@@ -17,21 +17,21 @@ public final class MysqlService {
     private final String connectionString;
     private final String dbUser;
     private final String dbPass;
-    
+
     public MysqlService(String hostname, String dbName, String dbUser, String dbPass) {
         this(String.format("jdbc:mysql://%s/%s", hostname, dbName), dbUser, dbPass);
     }
-    
+
     public MysqlService(String connectionString, String dbUser, String dbPass) {
         driverIsLoaded = loadDatabaseDriver();
-        
+
         this.connectionString = connectionString;
         this.dbUser = dbUser;
         this.dbPass = dbPass;
-        
+
         openConnection();
     }
-    
+
     private boolean loadDatabaseDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -39,19 +39,19 @@ public final class MysqlService {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) { }
         return false;
     }
-    
+
     public boolean isConnected() {
         return driverIsLoaded && connection != null;
     }
-    
+
     public void openConnection() {
         if (driverIsLoaded && connection == null) {
-            try {            
+            try {
                 connection = DriverManager.getConnection(connectionString, dbUser, dbPass);
             } catch (SQLException ex) { }
         }
     }
-    
+
     public void closeConnection() {
         if (connection != null) {
             try {
@@ -62,10 +62,10 @@ public final class MysqlService {
             }
         }
     }
-    
+
     public List<Map<String, String>> executeQuery(String queryString, ArrayList<String> parameters) {
         List<Map<String, String>> result = new ArrayList<>();
-        
+
         if (isConnected()) {
             try (
                 PreparedStatement stmt = prepareStatement(queryString, parameters);
@@ -85,22 +85,22 @@ public final class MysqlService {
                 }
             } catch (SQLException ex) { }
         }
-        
+
         return result;
     }
-    
+
     public int executeUpdate(String queryString, ArrayList<String> parameters) {
         int rowsAffected = -1;
-        
+
         if (isConnected()) {
             try (PreparedStatement stmt = prepareStatement(queryString, parameters)) {
                 rowsAffected = stmt.executeUpdate();
             } catch (SQLException ex) { }
         }
-        
+
         return rowsAffected;
     }
-    
+
     private PreparedStatement prepareStatement(String queryString, ArrayList<String> parameters) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement(queryString);
         for (int i = 0; i < parameters.size(); i++) {

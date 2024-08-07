@@ -4,9 +4,9 @@ REM Install chocolatey
 REM Install my essential packages
 choco install -y 7zip ^
 		ccleaner ^
-		deluge ^
-		dropbox ^
-		GoogleChrome ^
+		@REM deluge ^
+		@REM dropbox ^
+		@REM GoogleChrome ^
 		keepass ^
 		libreoffice ^
 		telegram ^
@@ -22,9 +22,11 @@ choco install -y docker-toolbox ^
 
 REM Install python and my goto libraries
 choco install -y python3
+python3 -m pip install --no-cache-dir pipx
+python3 -m pipx ensurepath
+pipx install httpie
 pip install --no-cache-dir pipdeptree ^
 			requests ^
-			httpie ^
 			virtualenv
 
 REM Install my pentest tools

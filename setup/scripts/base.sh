@@ -21,10 +21,12 @@ apt-get install -y \
     openssh-client
 
 # Install common runtime languages
-apt-get install -y python3 python3-pip
+apt-get install -y python3 python3-pip python3-venv
+python3 -m pip install --no-cache-dir pipx
+python3 -m pipx ensurepath
 
 # Install shellerator and One-Lin3r for easy reverse shell generations
-pip3 install --no-cache-dir \
+pipx install --pip-args="--no-cache-dir" \
     git+https://github.com/ShutdownRepo/shellerator.git \
     git+https://github.com/D4Vinci/One-Lin3r.git
 

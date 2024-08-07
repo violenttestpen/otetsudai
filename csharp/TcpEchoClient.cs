@@ -11,35 +11,35 @@ class TcpEchoClient
 		{
 			throw new ArgumentException("Parameters: <Server> <Word> [<Port>]");
 		}
-		 
+
 		String server = args[0]; // Server name or IP address
-		 
+
 		// Convert input String to bytes
 		byte[] byteBuffer = Encoding.ASCII.GetBytes(args[1]);
-		 
+
 		// Use port argument if supplied, otherwise default to 8080
 		int servPort = (args.Length == 3) ? Int32.Parse(args[2]) : 8080;//7 ;
-		 
+
 		TcpClient client = null;
 		NetworkStream netStream = null;
-		 
+
 		try
 		{
 			// Create socket that is connected to server on specified port
 			client = new TcpClient(server, servPort);
-			 
+
 			Console.WriteLine("Connected to server... sending echo string");
-			 
+
 			netStream = client.GetStream();
-			 
+
 			// Send the encoded string to the server
 			netStream.Write(byteBuffer, 0, byteBuffer.Length);
-			 
+
 			Console.WriteLine("Sent {0} bytes to server...", byteBuffer.Length);
-			 
+
 			int totalBytesRcvd = 0; // Total bytes received so far
 			int bytesRcvd = 0; // Bytes received in last read
-			 
+
 			// Receive the same string back from the server
 			while (totalBytesRcvd < byteBuffer.Length)
 			{

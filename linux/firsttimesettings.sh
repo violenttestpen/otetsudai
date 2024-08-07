@@ -2,6 +2,12 @@
 #remember to use sudo
 #for use in ubuntu-based distros
 
+# Check for root
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
 # Don't persist /var/log
 TMPLOGDIR="tmpfs	/var/log	tmpfs	defaults,noatime,nodiratime,nodev,nosuid,noexec,size=100M	0 0"
 sudo rm -rf /var/log/*

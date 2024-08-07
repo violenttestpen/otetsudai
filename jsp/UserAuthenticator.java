@@ -18,7 +18,7 @@ public class UserAuthenticator {
     private final String usernameField;
     private final String passwordField;
     private MysqlService dbService;
-    
+
     /**
      *
      * @param hostname
@@ -37,31 +37,31 @@ public class UserAuthenticator {
         this.usernameField = usernameField;
         this.passwordField = passwordField;
     }
-    
+
     public boolean isConnected() {
         return dbService.isConnected();
     }
-    
+
     public void close() {
         dbService.closeConnection();
     }
-    
+
     public Map<String, String> login(String username, String password) {
         Map<String, String> user = new LinkedHashMap<>();
         if (!isConnected()) {
             return user;
         }
-        
+
         List<String> parameters = new ArrayList<String>(2) {{
             add(username);
             add(password);
         }};
         List<Map<String, String>> result = dbService.executeQuery(String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?", tableName, usernameField, passwordField), parameters);
-        
+
         if (result.size() == 1) {
             user = result.get(0);
         }
-        
+
         return user;
     }
 }

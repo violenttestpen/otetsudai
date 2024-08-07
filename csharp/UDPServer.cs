@@ -29,7 +29,7 @@ namespace UDPServer
         private void serverMsgBox_Load(object sender, EventArgs e)
         {
             this.btStart.Text = "StartServer";
-        } 
+        }
 
         private void btStart_Click(object sed, EventArgs e)
         {
@@ -72,7 +72,7 @@ namespace UDPServer
         }
 
         private void Listening()
-        {            
+        {
             byte[] data;
             //Listening loop.
             while (true)
@@ -81,10 +81,10 @@ namespace UDPServer
                 data = _server.Receive(ref _client);
                 string receivedMsg = Encoding.ASCII.GetString(data, 0, data.Length);
                 //Show the message.
-                this.Invoke(new ShowMessageMethod(ShowMsg),new object[]{ "Client:" + receivedMsg });
+                this.Invoke(new ShowMessageMethod(ShowMsg), new object[] { "Client:" + receivedMsg });
                 //Send a response message.
                 data = Encoding.ASCII.GetBytes("Server:" + receivedMsg);
-                _server.Send(data, data.Length,_client);
+                _server.Send(data, data.Length, _client);
                 //Sleep for UI to work.
                 Thread.Sleep(500);
             }

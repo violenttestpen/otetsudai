@@ -12,7 +12,7 @@ public final class ViewHelper {
         RequestDispatcher rd = request.getRequestDispatcher(urlpath);
         rd.forward(request, response);
     }
-    
+
     public static void redirectTo(HttpServletResponse response, String urlpath) throws IOException {
         response.sendRedirect(urlpath);
     }

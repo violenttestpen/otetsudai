@@ -44,8 +44,8 @@ namespace UDPClient
             byte[] data = _server.Receive(ref _client);
             string msg = Encoding.ASCII.GetString(data, 0, data.Length);
             //Show the response message.
-            this.richTextBox1.Text = msg;      
+            this.richTextBox1.Text = msg;
         }
-        
+
     }
 }
